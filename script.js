@@ -1,3 +1,9 @@
+const buttons = document.querySelectorAll(".button");
+const opcije = document.querySelector("#opcije");
+const poruka = document.querySelector('#poruka');
+let porukaParagraf = document.createElement('p');
+poruka.appendChild(porukaParagraf);
+
 function getComputerChoise() {
   let broj = Math.floor(Math.random() * 3);
   if (broj === 0) {
@@ -9,20 +15,9 @@ function getComputerChoise() {
   }
 }
 
-function getHumanChoise() {
-  let unos = prompt("Unesite vas izbor: 'kamen', 'papir' ili 'makaze'!");
-  let malaSlova = unos.toLowerCase();
-  let finalUnos = malaSlova.trim();
-
-  if (
-    finalUnos === "kamen" ||
-    finalUnos === "papir" ||
-    finalUnos === "makaze"
-  ) {
-    return finalUnos;
-  } else {
-    return "Unos nije validan, pritisnite F5 ili osvjezite stranu da pokusate ponovo!";
-  }
+function getHumanChoise(event) {
+  let target = event.target
+  return target.value;
 }
 
 function playRound(human, computer) {
@@ -46,45 +41,56 @@ function playRound(human, computer) {
   ) {
     result = "Nerjeseno je! Racunar je odabrao isto kao i Vi.";
   } else {
-    result = "GRESKA! Pogresan unos!";
+    result = "Doslo je do greske! Pokusajte ponovo!";
   }
 
   return result;
 }
 
-function playGame() {
-  let humanScore = 0;
-  let computerScore = 0;
+opcije.addEventListener('click', function(e){
+  let comp = getComputerChoise();
+  let human = getHumanChoise(e);
 
-  do {
-    let humanChoise = getHumanChoise();
-    let computerChoise = getComputerChoise();
-    let rezultat = playRound(humanChoise, computerChoise);
-    console.log(rezultat);
-    if (
-      rezultat == "Pobjeda! Kamen je jaci od makaza!" ||
-      rezultat == "Pobjeda! Papir je jaci od kamena!" ||
-      rezultat == "Pobjeda! Makaze su jace od papira!"
-    ) {
-      humanScore++;
-    } else if (
-      rezultat == "Izgubili ste! Kamen je jaci od makaza!" ||
-      rezultat == "Izgubili ste! Papir je jaci od kamena!" ||
-      rezultat == "Izgubili ste! Makaze su jace od papira!"
-    ) {
-      computerScore++;
-    }
-    console.log();
-    console.log(`Rezultat: ${humanScore}:${computerScore}`);
-  } while (humanScore < 5 && computerScore < 5);
+  porukaParagraf.textContent = playRound(human, comp);
 
-  if(humanScore === 5){
-    console.log();
-    console.log("CESTITAM! POBJEDILI STE!!!");
-  } else {
-    console.log();
-    console.log("Na zalost izgubili ste :(");
-  }
-}
+  console.log(playRound(human, comp));
+})
 
-playGame();
+// function playGame() {
+//   let humanScore = 0;
+//   let computerScore = 0;
+
+//   do {
+//     let humanChoise = getHumanChoise();
+//     let computerChoise = getComputerChoise();
+//     let rezultat = playRound(humanChoise, computerChoise);
+//     console.log(rezultat);
+//     if (
+//       rezultat == "Pobjeda! Kamen je jaci od makaza!" ||
+//       rezultat == "Pobjeda! Papir je jaci od kamena!" ||
+//       rezultat == "Pobjeda! Makaze su jace od papira!"
+//     ) {
+//       humanScore++;
+//     } else if (
+//       rezultat == "Izgubili ste! Kamen je jaci od makaza!" ||
+//       rezultat == "Izgubili ste! Papir je jaci od kamena!" ||
+//       rezultat == "Izgubili ste! Makaze su jace od papira!"
+//     ) {
+//       computerScore++;
+//     }
+//     console.log();
+//     console.log(`Rezultat: ${humanScore}:${computerScore}`);
+//   } while (humanScore < 5 && computerScore < 5);
+
+//   if(humanScore === 5){
+//     console.log();
+//     console.log("CESTITAM! POBJEDILI STE!!!");
+//   } else {
+//     console.log();
+//     console.log("Na zalost izgubili ste :(");
+//   }
+// }
+
+
+
+// playGame();
